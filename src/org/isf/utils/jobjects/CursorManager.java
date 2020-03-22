@@ -53,14 +53,13 @@ class CursorManager {
   private void clearQueueOfInputEvents() {
     EventQueue q = Toolkit.getDefaultToolkit().getSystemEventQueue();
     try{
-        synchronized(parentQueue){
-          acquirePermit();
-          synchronized(q) {
-            ArrayList<AWTEvent> nonInputEvents = gatherNonInputEvents(q);
-            for (Iterator<AWTEvent> it = nonInputEvents.iterator(); it.hasNext();)
-              q.postEvent((AWTEvent)it.next());
-          }
-        }
+      synchronized(q) {
+        acquirePermit();
+        ArrayList<AWTEvent> nonInputEvents = gatherNonInputEvents(q);
+        for (Iterator<AWTEvent> it = nonInputEvents.iterator(); it.hasNext();)
+          q.postEvent((AWTEvent)it.next());
+      }
+        
     }catch(Exception exp){}
     finally{}
   }
